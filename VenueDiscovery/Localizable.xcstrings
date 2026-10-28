@@ -1,0 +1,23 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@" : {
+
+    },
+    "discoverPageTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DiscoverPage"
+          }
+        }
+      }
+    },
+    "EmptyView" : {
+
+    }
+  },
+  "version" : "1.3"
+}
