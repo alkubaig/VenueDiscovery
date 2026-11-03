@@ -41,21 +41,22 @@ struct DiscoveryPageCellView: View {
     }
     
     @ViewBuilder private func venueInfoView() -> some View {
+        let hasImage = venue.image != nil
         VStack(alignment: .leading) {
             Text(venue.body)
                 .fontWeight(.regular)
-                .foregroundColor(.white)
+                .foregroundColor(hasImage ? .white : .black)
                 .font(.body)
             
             Text(venue.title)
-                .foregroundColor(.white)
+                .foregroundColor(hasImage ? .white : .black)
                 .fontWeight(.heavy)
                 .font(.title3)
             
             if let rating = venue.rating {
                 Text("\(String(rating))")
                     .fontWeight(.bold)
-                    .foregroundColor(.white)
+                    .foregroundColor(hasImage ? .white : .black)
                     .font(.body)
             }
         }
@@ -63,3 +64,24 @@ struct DiscoveryPageCellView: View {
     }
     
 }
+
+// MARK: preview no iamge and no rating
+#Preview {
+    let venue = Venue(id: 1, title: "This Venue", body: "Body")
+    DiscoveryPageCellView(venue: venue)
+}
+
+// MARK: preview no iamge and has rating
+#Preview {
+    let venue = Venue(id: 1, title: "This Venue", body: "Body", rating: 3)
+    DiscoveryPageCellView(venue: venue)
+}
+
+// MARK: preview with image
+#Preview {
+    let venue = Venue(id: 1, title: "This Venue with image", body: "Body", image: UIImage(named: "venue.jpeg"), rating: 3)
+    DiscoveryPageCellView(venue: venue)
+}
+
+
+
