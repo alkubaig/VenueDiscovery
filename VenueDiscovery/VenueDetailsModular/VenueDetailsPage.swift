@@ -54,9 +54,15 @@ struct VenueDetailsPage: View {
     }
 }
 
-// MARK: preview no iamge
+// MARK: preview no iamge and no rating
 #Preview {
     let venue = Venue(id: 1, title: "This Venue", body: "Body")
+    VenueDetailsPage(venue: venue)
+}
+
+// MARK: preview no iamge and rating
+#Preview {
+    let venue = Venue(id: 1, title: "This Venue", body: "Body", rating: 2)
     VenueDetailsPage(venue: venue)
 }
 
