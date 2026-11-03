@@ -13,7 +13,7 @@ struct VenueDetailsPage: View {
         static let imageHeight: CGFloat = 300
         static let descriptionTitle: String = "About this space"
         static let textPadding: CGFloat = 8
-        static let headerHeight: CGFloat = 60
+        static let headerHeight: CGFloat = 50
     }
     let venue: Venue
     
