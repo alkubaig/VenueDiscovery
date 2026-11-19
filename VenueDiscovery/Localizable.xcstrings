@@ -4,6 +4,12 @@
     "%@" : {
 
     },
+    "Account" : {
+
+    },
+    "Discover" : {
+
+    },
     "discoverPageTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -16,6 +22,24 @@
       }
     },
     "EmptyView" : {
+
+    },
+    "First Name" : {
+
+    },
+    "Last Name" : {
+
+    },
+    "Personal Information" : {
+
+    },
+    "Save Changes" : {
+
+    },
+    "Search cities" : {
+
+    },
+    "Search city" : {
 
     }
   },
