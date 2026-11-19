@@ -12,7 +12,7 @@ import SwiftData
 final class FavoriteVenues {
     @Attribute(.unique) var venueID: Int
 
-    init(venueID: Int, title: String) {
+    init(venueID: Int) {
         self.venueID = venueID
     }
 }
