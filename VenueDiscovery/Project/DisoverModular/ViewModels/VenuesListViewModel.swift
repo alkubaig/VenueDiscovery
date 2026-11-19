@@ -14,11 +14,18 @@ class VenuesListViewModel: ObservableObject {
     @Published var isDoneFetching: Bool = false
     
     init() {
+        debugPrint("Fonts")
+        for family in UIFont.familyNames {
+            if family.lowercased().contains("inter") {
+                print("Family:", family)
+                print("Fonts:", UIFont.fontNames(forFamilyName: family))
+            }
+        }
         fetchVenues()
     }
     
     func fetchVenues() {
-        print("fetchPosts")
+        debugPrint("fetchPosts")
         DiscoverNetwork().getVenues {
             debugPrint("fetchPosts success \($0)")
             self.venues = $0

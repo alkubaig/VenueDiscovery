@@ -17,6 +17,7 @@ struct DiscoveryPageCellView: View {
         static let backgroundColor: UIColor = .lightGray
         static let horizontalPadding: CGFloat = 10
         static let verticalPadding: CGFloat = 5
+        static let inBetweenTextPadding: CGFloat = 2
     }
     
     var body: some View {
@@ -42,16 +43,14 @@ struct DiscoveryPageCellView: View {
     
     @ViewBuilder private func venueInfoView() -> some View {
         let hasImage = venue.image != nil
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: Constants.inBetweenTextPadding) {
             Text(venue.body)
-                .fontWeight(.regular)
+                .font(.inter(size: 8, weight: .heavy))
                 .foregroundColor(hasImage ? .white : .black)
-                .font(.body)
             
             Text(venue.title)
                 .foregroundColor(hasImage ? .white : .black)
-                .fontWeight(.heavy)
-                .font(.title3)
+                .font(.inter(size: 23))
             
             if let rating = venue.rating {
                 Text("\(String(rating))")

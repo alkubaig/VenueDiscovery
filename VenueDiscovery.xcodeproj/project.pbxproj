@@ -15,7 +15,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5D6D6FB4305B6476004CA655 /* Exceptions for "VenueDiscovery" folder in "VenueDiscovery" target */ = {
+		5DEB21A9309A7996008D45CA /* Exceptions for "VenueDiscovery" folder in "VenueDiscovery" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -28,7 +28,7 @@
 		000000000000000000000010 /* VenueDiscovery */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				5D6D6FB4305B6476004CA655 /* Exceptions for "VenueDiscovery" folder in "VenueDiscovery" target */,
+				5DEB21A9309A7996008D45CA /* Exceptions for "VenueDiscovery" folder in "VenueDiscovery" target */,
 			);
 			path = VenueDiscovery;
 			sourceTree = "<group>";
