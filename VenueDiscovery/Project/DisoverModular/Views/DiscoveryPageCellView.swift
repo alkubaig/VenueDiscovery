@@ -120,14 +120,31 @@ struct DiscoveryPageCellView: View {
     }
 }
 
+// MARK: preview
+
+extension DiscoveryPageCellView {
+    static var previewWithImage: some View {
+        DiscoveryPageCellView(venue: MockVenues.withImage)
+    }
+    
+    static var previewNoImageNoRating: some View {
+        DiscoveryPageCellView(venue: MockVenues.noImageNoRating)
+    }
+    
+    static var previewNoImageWithRating: some View {
+        DiscoveryPageCellView(venue: MockVenues.noImageWithRating)
+    }
+}
+
 #Preview("No image, no rating") {
-    DiscoveryPageCellView(venue: MockVenues.noImageNoRating)
+    DiscoveryPageCellView.previewNoImageNoRating
 }
 
 #Preview("No image, with rating") {
-    DiscoveryPageCellView(venue: MockVenues.noImageWithRating)
+    DiscoveryPageCellView.previewNoImageWithRating
 }
 
 #Preview("With image") {
-    DiscoveryPageCellView(venue: MockVenues.withImage)
+    DiscoveryPageCellView.previewWithImage
+
 }

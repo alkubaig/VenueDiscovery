@@ -13,9 +13,11 @@ import Foundation
 class FavoriteVenue {
     @Attribute(.unique) var venueID: Int
     var user: UserProfile?
+    var dateAdded: Date
 
     init(venueID: Int, user: UserProfile) {
         self.venueID = venueID
         self.user = user
+        self.dateAdded = Date()
     }
 }

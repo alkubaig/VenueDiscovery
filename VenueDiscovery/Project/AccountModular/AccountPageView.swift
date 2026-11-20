@@ -11,29 +11,43 @@ import SwiftData
 struct AccountPageView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var profiles: [UserProfile]
+    @Query(sort: \FavoriteVenue.dateAdded, order: .reverse) var favoriteVenues: [FavoriteVenue]
 
     @State private var firstName = ""
     @State private var lastName = ""
+    
+    var viewModel = VenuesListViewModel()
+
+    init(viewModel: VenuesListViewModel) {
+        self.viewModel = viewModel
+    }
 
     var body: some View {
-        Form {
-            Section("Personal Information") {
-                TextField("First Name", text: $firstName)
-                TextField("Last Name", text: $lastName)
+        NavigationStack {
+            Form {
+                Section("Personal Information") {
+                    TextField("First Name", text: $firstName)
+                    TextField("Last Name", text: $lastName)
+                }
+                
+                Button("Save Changes") {
+                    saveProfile()
+                }
+                
+                Button("Delete me") {
+                    deleteProfile()
+                }
+                
             }
-
-            Button("Save Changes") {
-                saveProfile()
+            .onAppear {
+                if let profile = profiles.first {
+                    firstName = profile.firstName
+                    lastName = profile.lastName
+                }
             }
             
-            Button("Delete me") {
-                deleteProfile()
-            }
-        }
-        .onAppear {
-            if let profile = profiles.first {
-                firstName = profile.firstName
-                lastName = profile.lastName
+            if let venues = viewModel.venues {
+                FavoriteVenuesCarousel(venues: venues)
             }
         }
     }
