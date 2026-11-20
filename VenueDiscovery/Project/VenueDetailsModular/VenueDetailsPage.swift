@@ -54,23 +54,29 @@ struct VenueDetailsPage: View {
     }
 }
 
-// MARK: preview no iamge and no rating
-#Preview {
-    let venue = Venue(id: 1, title: "This Venue", body: "Body", city: "Hillsboro", neighborhood: "Reeds-crossing")
-    VenueDetailsPage(venue: venue)
-}
-
-// MARK: preview no iamge and rating
-#Preview {
-    let venue = Venue(id: 1, title: "This Venue", body: "Body", rating: 2, city: "Portland")
-    VenueDetailsPage(venue: venue)
-}
-
-// MARK: preview with image
-#Preview {
-    let venue = Venue(id: 1, title: "This Venue with image", body: "Body", image: UIImage(named: "venue.jpeg"), rating: 3, city: "New york", neighborhood: "SOHO")
-    VenueDetailsPage(venue: venue)
+extension VenueDetailsPage {
+    static var previewWithImage: some View {
+        VenueDetailsPage(venue: MockVenues.withImage)
+    }
+    
+    static var previewNoImageNoRating: some View {
+        VenueDetailsPage(venue: MockVenues.noImageNoRating)
+    }
+    
+    static var previewNoImageWithRating: some View {
+        VenueDetailsPage(venue: MockVenues.noImageWithRating)
+    }
 }
 
 
+#Preview("No image, no rating") {
+    VenueDetailsPage.previewNoImageNoRating
+}
 
+#Preview("No image, with rating") {
+    VenueDetailsPage.previewNoImageWithRating
+}
+
+#Preview("With image") {
+    VenueDetailsPage.previewWithImage
+}

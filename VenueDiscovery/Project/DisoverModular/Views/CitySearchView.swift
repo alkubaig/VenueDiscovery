@@ -16,6 +16,7 @@ struct CitySearchView: View {
         "Seattle",
         "San Francisco",
         "Hillsboro",
+        "New York",
         "all"
     ]
     

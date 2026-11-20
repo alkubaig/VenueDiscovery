@@ -10,11 +10,17 @@ import Lottie
 import SwiftData
 
 struct DiscoveryPageView: View {
-    enum DiscoverPageConstants {
+    enum Constants {
         static let pageTitle: String =  "Find your space"
         static let emptyViewTitle: String =  "EmptyView"
         static let headerHeight: CGFloat = 70
+        static let searchBarHeight: CGFloat = 59
         static let headerSpacer: CGFloat = 1
+        static let searchTabText = "Where and when?"
+        static let searchIconSize: CGFloat = 20
+        static let initialViewHeight: CGFloat = 38
+        static let initialViewWidth: CGFloat = 38
+
     }
     
     @Environment(\.modelContext) private var modelContext
@@ -29,7 +35,7 @@ struct DiscoveryPageView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
+            VStack(spacing: .none) {
                 if viewModel.isDoneFetching {
                     titleView()
                     
@@ -54,13 +60,20 @@ struct DiscoveryPageView: View {
             showCitySearch = true
         } label: {
             HStack {
-                Image(systemName: "magnifyingglass")
-                    .frame(width: 20, height: 20)
+                Image(systemName: appIcons.magnifyingGlass)
+                    .frame(width: Constants.searchIconSize, height: Constants.searchIconSize)
                     .font(.system(size: 12))
-                    .foregroundStyle(Color(red: 0.35, green: 0.30, blue: 1.0))
-               
-                Text("Where and when?")
-                    .font(.inter(size: 12, weight: .semibold))
+                    .foregroundStyle(Color.blueIcon)
+                
+                VStack(alignment: .leading) {
+                    Text(Constants.searchTabText)
+                        .font(.inter(size: appFontSize.body, weight: .semibold))
+                        .foregroundColor(.blackText)
+                   
+                    Text(searchResults.last?.userSelectedCity ?? "")
+                        .font(.inter(size: appFontSize.small, weight: .regular))
+                        .foregroundColor(.lightGrayText)
+                }
                 Spacer()
             }
             .foregroundStyle(.black)
@@ -69,10 +82,10 @@ struct DiscoveryPageView: View {
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .overlay {
                 RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.gray.opacity(0.25), lineWidth: 1)
+                    .stroke(Color.lightGrayBoarder, lineWidth: 1)
             }
         }
-        .frame(height: 59)
+        .frame(height: Constants.searchBarHeight)
         .padding(.horizontal)
         .sheet(isPresented: $showCitySearch) {
             CitySearchView() { city in
@@ -93,14 +106,15 @@ struct DiscoveryPageView: View {
             HStack {
                 VStack() {
                     Text(searchResults.last?.userSelectedCity.uppercased() ?? "")
-                        .font(.inter(size: 12, weight: .heavy))
+                        .font(.inter(size: appFontSize.span, weight: .heavy))
                         .tracking(1.2)
-                        .foregroundColor(.gray)
+                        .foregroundColor(.darkGrayText)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal)
                     
-                    Text(DiscoverPageConstants.pageTitle)
-                        .font(.inter(size: 29, weight: .regular))
+                    Text(Constants.pageTitle)
+                        .font(.inter(size: appFontSize.h1, weight: .regular))
+                        .foregroundColor(.blackText)
                         .tracking(-1.59)
                         .lineSpacing(0)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -108,17 +122,21 @@ struct DiscoveryPageView: View {
                 }
                 
                 Text(userProfile.first?.initials ?? "")
-                    .foregroundColor(.white)
-                    .font(.headline)
-                    .frame(width: 40, height: 40)
+                    .font(.inter(size: appFontSize.button, weight: .heavy))
+                    .foregroundColor(.whiteText)
+                    .frame(
+                        width: Constants.initialViewWidth,
+                        height: Constants.initialViewHeight
+                    )
                     .background {
                         Circle()
-                            .fill(Color.black)
+                            .fill(Color.blackBackground)
                     }
                     .padding(.trailing)
             }
         }
-        .frame(height: DiscoverPageConstants.headerHeight)
+        .frame(height: Constants.headerHeight)
+        .background(Color.lightBackground)
     }
 
     @ViewBuilder private func discoveryTableContent() -> some View {
@@ -141,7 +159,7 @@ struct DiscoveryPageView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .ignoresSafeArea(.all)
         } else {
-            Text(DiscoverPageConstants.emptyViewTitle)
+            Text(Constants.emptyViewTitle)
         }
     }
 }

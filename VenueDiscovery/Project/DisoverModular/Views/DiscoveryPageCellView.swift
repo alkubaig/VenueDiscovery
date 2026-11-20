@@ -23,6 +23,7 @@ struct DiscoveryPageCellView: View {
         static let horizontalPadding: CGFloat = 10
         static let verticalPadding: CGFloat = 5
         static let inBetweenTextPadding: CGFloat = 2
+        static let favoriteIconSize: CGFloat = 19
     }
     
     var isFavorite: Bool {
@@ -72,9 +73,9 @@ struct DiscoveryPageCellView: View {
             Button {
                 toggleFavorite()
             } label: {
-                Image(systemName: isFavorite ? "heart.fill" : "heart")
-                    .foregroundStyle(.white)
-                    .frame(width: 19, height: 19)
+                Image(systemName: isFavorite ? appIcons.heartFill : appIcons.heart)
+                    .foregroundStyle(Color.appWhite)
+                    .frame(width: Constants.favoriteIconSize, height: Constants.favoriteIconSize)
                     .padding(10)
             }
             .buttonStyle(.plain)
@@ -94,26 +95,26 @@ struct DiscoveryPageCellView: View {
         VStack(alignment: .leading, spacing: Constants.inBetweenTextPadding) {
             
             Text(cityAndNeighborhood.uppercased())
-                .font(.inter(size: 8, weight: .heavy))
+                .font(.inter(size: appFontSize.span, weight: .heavy))
                 .tracking(1.12)
                 .lineLimit(1)
                 .truncationMode(.tail)
-                .foregroundColor(hasImage ? .white : .black)
+                .foregroundColor(hasImage ? .whiteText : .blackText)
                 .fixedSize(horizontal: false, vertical: true)
             
             Text(venue.title)
                 .tracking(-0.92)
-                .foregroundColor(hasImage ? .white : .black)
-                .font(.inter(size: 23, weight: .medium))
+                .foregroundColor(hasImage ? .whiteText : .blackText)
+                .font(.inter(size: appFontSize.h2, weight: .medium))
             
             if let rating = venue.rating {
                 HStack(spacing: 4) {
-                    Image(systemName: "star.fill")
+                    Image(systemName: appIcons.starFill)
 
                     Text(String(format: "%.1f", rating))
                 }
-                .font(.inter(size: 12, weight: .heavy))
-                .foregroundStyle(hasImage ? .white : .black)
+                .font(.inter(size: appFontSize.paragraph, weight: .heavy))
+                .foregroundColor(hasImage ? .whiteText : .blackText)
             }
         }
         .padding()

@@ -29,7 +29,7 @@ struct FavoriteVenueCard: View {
 
             if let rating = venue.rating {
                 HStack(spacing: 4) {
-                    Image(systemName: "star.fill")
+                    Image(systemName: appIcons.starFill)
 
                     Text(String(format: "%.1f", rating))
                 }
