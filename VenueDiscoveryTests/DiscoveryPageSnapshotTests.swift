@@ -16,27 +16,41 @@ final class DiscoveryPageSnapshotTests: XCTestCase {
     @MainActor
     func testNoImageNoRating() throws {
         try verifySnapshot(
-            venue: MockVenues.noImageNoRating
+            view: DiscoveryPageCellView.previewNoImageNoRating
         )
     }
 
     @MainActor
     func testNoImageWithRating() throws {
         try verifySnapshot(
-            venue: MockVenues.noImageWithRating
+            view: DiscoveryPageCellView.previewNoImageWithRating
         )
     }
 
     @MainActor
     func testWithImage() throws {
         try verifySnapshot(
-            venue: MockVenues.withImage
+            view: DiscoveryPageCellView.previewWithImage
+        )
+    }
+    
+    @MainActor
+    func testEmptyDiscoveryPage() throws {
+        try verifySnapshot(
+            view: DiscoveryPageView.emptyPreview
         )
     }
 
     @MainActor
-    private func verifySnapshot(
-        venue: Venue,
+    func testDiscoveryPage() throws {
+        try verifySnapshot(
+            view: DiscoveryPageView.nonEmptyPreview
+        )
+    }
+    
+    @MainActor
+    private func verifySnapshot<Content: View>(
+        view: Content,
         file: StaticString = #filePath,
         testName: String = #function
     ) throws {
@@ -47,11 +61,11 @@ final class DiscoveryPageSnapshotTests: XCTestCase {
             )
         )
 
-        let view = DiscoveryPageCellView(venue: venue)
+        let content = view
             .modelContainer(container)
             .frame(width: 350)
 
-        let controller = UIHostingController(rootView: view)
+        let controller = UIHostingController(rootView: content)
 
         assertSnapshot(
             of: controller,

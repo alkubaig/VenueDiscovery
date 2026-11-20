@@ -21,9 +21,12 @@ struct DiscoveryPageView: View {
     @Query private var searchResults: [SearchResult]
     @Query private var userProfile: [UserProfile]
     @State private var showCitySearch = false
-    
-    @StateObject var viewModel = VenuesListViewModel()
+    var viewModel = VenuesListViewModel()
 
+    init(viewModel: VenuesListViewModel) {
+        self.viewModel = viewModel
+    }
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -144,6 +147,32 @@ struct DiscoveryPageView: View {
 }
 
 // MARK: preview
-#Preview {
-    DiscoveryPageView()
+
+extension DiscoveryPageView {
+    static var emptyPreview: some View {
+        let viewModel = VenuesListViewModel()
+        viewModel.isDoneFetching = true
+        return DiscoveryPageView(viewModel: viewModel)
+    }
+    
+    static var nonEmptyPreview: some View {
+        let viewModel = VenuesListViewModel()
+        viewModel.isDoneFetching = true
+        viewModel.venues =
+        [
+            MockVenues.withImage,
+            MockVenues.noImageNoRating,
+            MockVenues.noImageWithRating
+        ]
+        return DiscoveryPageView(viewModel: viewModel)
+    }
 }
+
+#Preview("empty preview") {
+    DiscoveryPageView.emptyPreview
+}
+
+#Preview("non-empty preview") {
+    DiscoveryPageView.nonEmptyPreview
+}
+

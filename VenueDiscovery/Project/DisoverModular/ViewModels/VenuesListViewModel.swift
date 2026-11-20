@@ -17,12 +17,10 @@ class VenuesListViewModel: ObservableObject {
         debugPrint("Fonts")
         for family in UIFont.familyNames {
             if family.lowercased().contains("inter") {
-                print("Family:", family)
-                print("Fonts:", UIFont.fontNames(forFamilyName: family))
+                debugPrint("Family:", family)
+                debugPrint("Fonts:", UIFont.fontNames(forFamilyName: family))
             }
         }
-        print("Inter18pt-Bold")
-        print(UIFont(name: "Inter18pt-Bold", size: 29) as Any)
         fetchVenues()
     }
     
