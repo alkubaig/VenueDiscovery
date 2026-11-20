@@ -11,9 +11,9 @@ import SwiftData
 
 struct DiscoveryPageView: View {
     enum DiscoverPageConstants {
-        static let pageTitle: String =  "Find Your Space"
+        static let pageTitle: String =  "Find your space"
         static let emptyViewTitle: String =  "EmptyView"
-        static let headerHeight: CGFloat = 150
+        static let headerHeight: CGFloat = 70
         static let headerSpacer: CGFloat = 1
     }
     
@@ -29,6 +29,8 @@ struct DiscoveryPageView: View {
             VStack {
                 if viewModel.isDoneFetching {
                     titleView()
+                    
+                    searchView()
                     
                     discoveryTableContent()
                         .ignoresSafeArea()
@@ -50,14 +52,24 @@ struct DiscoveryPageView: View {
         } label: {
             HStack {
                 Image(systemName: "magnifyingglass")
-                Text("Search city")
+                    .frame(width: 20, height: 20)
+                    .font(.system(size: 12))
+                    .foregroundStyle(Color(red: 0.35, green: 0.30, blue: 1.0))
+               
+                Text("Where and when?")
+                    .font(.inter(size: 12, weight: .semibold))
                 Spacer()
             }
-            .foregroundStyle(.gray)
+            .foregroundStyle(.black)
             .padding(12)
-            .background(Color.gray.opacity(0.15))
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .background(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+            .overlay {
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color.gray.opacity(0.25), lineWidth: 1)
+            }
         }
+        .frame(height: 59)
         .padding(.horizontal)
         .sheet(isPresented: $showCitySearch) {
             CitySearchView() { city in
@@ -68,23 +80,29 @@ struct DiscoveryPageView: View {
             }
             .presentationDetents([.medium, .large])
             .presentationDragIndicator(.visible)
+            .presentationBackground(.white)
         }
-        
     }
     
    // Top header
     @ViewBuilder private func titleView() -> some View {
         VStack() {
-            Text(searchResults.last?.userSelectedCity ?? "")
-                .font(.caption2)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal)
-            
             HStack {
-                Text(DiscoverPageConstants.pageTitle)
-                    .font(.title)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal)
+                VStack() {
+                    Text(searchResults.last?.userSelectedCity.uppercased() ?? "")
+                        .font(.inter(size: 12, weight: .heavy))
+                        .tracking(1.2)
+                        .foregroundColor(.gray)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                    
+                    Text(DiscoverPageConstants.pageTitle)
+                        .font(.inter(size: 29, weight: .regular))
+                        .tracking(-1.59)
+                        .lineSpacing(0)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                }
                 
                 Text(userProfile.first?.initials ?? "")
                     .foregroundColor(.white)
@@ -95,21 +113,23 @@ struct DiscoveryPageView: View {
                             .fill(Color.black)
                     }
                     .padding(.trailing)
-                
             }
-
-
-            searchView()
         }
         .frame(height: DiscoverPageConstants.headerHeight)
     }
 
     @ViewBuilder private func discoveryTableContent() -> some View {
+        let selectedCity = searchResults.last?.userSelectedCity
         if let venues = viewModel.venues {
-            List(venues) { venue in
+            let filteredVenues = venues.filter { venue in
+                guard let selectedCity, !selectedCity.isEmpty else { return true }
+                
+                return venue.city.lowercased() == selectedCity.lowercased()
+            }
+            
+            List(filteredVenues) { venue in
                 NavigationLink(destination: VenueDetailsPage(venue: venue)) {
                     DiscoveryPageCellView(venue: venue)
-
                 }
                 .listRowSeparator(.hidden)
                 .listRowInsets(EdgeInsets())

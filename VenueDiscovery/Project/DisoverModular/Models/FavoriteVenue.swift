@@ -7,12 +7,15 @@
 
 
 import SwiftData
+import Foundation
 
 @Model
-final class FavoriteVenues {
+class FavoriteVenue {
     @Attribute(.unique) var venueID: Int
+    var user: UserProfile?
 
-    init(venueID: Int) {
+    init(venueID: Int, user: UserProfile) {
         self.venueID = venueID
+        self.user = user
     }
 }

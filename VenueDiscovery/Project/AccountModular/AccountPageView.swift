@@ -25,6 +25,10 @@ struct AccountPageView: View {
             Button("Save Changes") {
                 saveProfile()
             }
+            
+            Button("Delete me") {
+                deleteProfile()
+            }
         }
         .onAppear {
             if let profile = profiles.first {
@@ -32,6 +36,16 @@ struct AccountPageView: View {
                 lastName = profile.lastName
             }
         }
+    }
+    
+    private func deleteProfile() {
+        guard let profile = profiles.first else {
+            debugPrint("No user to delete")
+            return
+        }
+        modelContext.delete(profile)
+        firstName = ""
+        lastName = ""
     }
 
     private func saveProfile() {

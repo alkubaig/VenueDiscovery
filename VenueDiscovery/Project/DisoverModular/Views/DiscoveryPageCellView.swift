@@ -6,9 +6,14 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct DiscoveryPageCellView: View {
     
+    @Environment(\.modelContext) private var modelContext
+    @Query private var favoriteVenues: [FavoriteVenue]
+    @Query private var profiles: [UserProfile]
+
     var venue: Venue
     
     private enum Constants {
@@ -18,6 +23,30 @@ struct DiscoveryPageCellView: View {
         static let horizontalPadding: CGFloat = 10
         static let verticalPadding: CGFloat = 5
         static let inBetweenTextPadding: CGFloat = 2
+    }
+    
+    var isFavorite: Bool {
+        favoriteVenues.contains { $0.venueID == venue.id }
+    }
+
+    private func toggleFavorite() {
+        if let favorite = favoriteVenues.first(where: {
+            $0.venueID == venue.id
+        }) {
+            modelContext.delete(favorite)
+        } else {
+            guard let user = profiles.first else {
+                debugPrint("Failed to update favorite because no user found")
+                return
+            }
+            modelContext.insert(FavoriteVenue(venueID: venue.id, user: user))
+        }
+
+        do {
+            try modelContext.save()
+        } catch {
+            debugPrint("Failed to update favorite: \(error)")
+        }
     }
     
     var body: some View {
@@ -39,48 +68,66 @@ struct DiscoveryPageCellView: View {
             
             venueInfoView()
         }
+        .overlay(alignment: .topTrailing) {
+            Button {
+                toggleFavorite()
+            } label: {
+                Image(systemName: isFavorite ? "heart.fill" : "heart")
+                    .foregroundStyle(.white)
+                    .frame(width: 19, height: 19)
+                    .padding(10)
+            }
+            .buttonStyle(.plain)
+            .padding(12)
+        }
+    }
+    
+    var cityAndNeighborhood: String {
+        return [venue.neighborhood, venue.city]
+            .compactMap { $0 }
+            .filter { !$0.isEmpty }
+            .joined(separator: " · ")
     }
     
     @ViewBuilder private func venueInfoView() -> some View {
         let hasImage = venue.image != nil
         VStack(alignment: .leading, spacing: Constants.inBetweenTextPadding) {
-            Text(venue.body)
+            
+            Text(cityAndNeighborhood.uppercased())
                 .font(.inter(size: 8, weight: .heavy))
+                .tracking(1.12)
+                .lineLimit(1)
+                .truncationMode(.tail)
                 .foregroundColor(hasImage ? .white : .black)
+                .fixedSize(horizontal: false, vertical: true)
             
             Text(venue.title)
+                .tracking(-0.92)
                 .foregroundColor(hasImage ? .white : .black)
-                .font(.inter(size: 23))
+                .font(.inter(size: 23, weight: .medium))
             
             if let rating = venue.rating {
-                Text("\(String(rating))")
-                    .fontWeight(.bold)
-                    .foregroundColor(hasImage ? .white : .black)
-                    .font(.body)
+                HStack(spacing: 4) {
+                    Image(systemName: "star.fill")
+
+                    Text(String(format: "%.1f", rating))
+                }
+                .font(.inter(size: 12, weight: .heavy))
+                .foregroundStyle(hasImage ? .white : .black)
             }
         }
         .padding()
     }
-    
 }
 
-// MARK: preview no iamge and no rating
-#Preview {
-    let venue = Venue(id: 1, title: "This Venue", body: "Body")
-    DiscoveryPageCellView(venue: venue)
+#Preview("No image, no rating") {
+    DiscoveryPageCellView(venue: MockVenues.noImageNoRating)
 }
 
-// MARK: preview no iamge and has rating
-#Preview {
-    let venue = Venue(id: 1, title: "This Venue", body: "Body", rating: 3)
-    DiscoveryPageCellView(venue: venue)
+#Preview("No image, with rating") {
+    DiscoveryPageCellView(venue: MockVenues.noImageWithRating)
 }
 
-// MARK: preview with image
-#Preview {
-    let venue = Venue(id: 1, title: "This Venue with image", body: "Body", image: UIImage(named: "venue.jpeg"), rating: 3)
-    DiscoveryPageCellView(venue: venue)
+#Preview("With image") {
+    DiscoveryPageCellView(venue: MockVenues.withImage)
 }
-
-
-

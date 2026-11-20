@@ -24,6 +24,8 @@ struct Venue: Hashable, Identifiable {
     let body: String
     var image: UIImage?
     var rating: Float?
+    var city: String
+    var neighborhood: String?
 }
 
 typealias Venues = [Venue]

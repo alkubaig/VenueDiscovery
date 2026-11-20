@@ -16,7 +16,8 @@ struct ContentView: View {
         }
         .modelContainer(for: [
             SearchResult.self,
-            UserProfile.self
+            UserProfile.self,
+            FavoriteVenue.self
         ])
     }
 }

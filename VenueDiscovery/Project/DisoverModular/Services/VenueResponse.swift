@@ -24,6 +24,8 @@ struct VenueResponse: Codable, Hashable, Identifiable {
     let body: String
     var imageURL: String?
     var rating: Float?
+    var city: String
+    var neighborhood: String?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -31,5 +33,7 @@ struct VenueResponse: Codable, Hashable, Identifiable {
         case body
         case imageURL = "image_url"
         case rating
+        case city
+        case neighborhood
     }
 }

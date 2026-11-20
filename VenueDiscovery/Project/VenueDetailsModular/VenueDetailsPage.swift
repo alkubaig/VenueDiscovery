@@ -56,19 +56,19 @@ struct VenueDetailsPage: View {
 
 // MARK: preview no iamge and no rating
 #Preview {
-    let venue = Venue(id: 1, title: "This Venue", body: "Body")
+    let venue = Venue(id: 1, title: "This Venue", body: "Body", city: "Hillsboro", neighborhood: "Reeds-crossing")
     VenueDetailsPage(venue: venue)
 }
 
 // MARK: preview no iamge and rating
 #Preview {
-    let venue = Venue(id: 1, title: "This Venue", body: "Body", rating: 2)
+    let venue = Venue(id: 1, title: "This Venue", body: "Body", rating: 2, city: "Portland")
     VenueDetailsPage(venue: venue)
 }
 
 // MARK: preview with image
 #Preview {
-    let venue = Venue(id: 1, title: "This Venue with image", body: "Body", image: UIImage(named: "venue.jpeg"), rating: 3)
+    let venue = Venue(id: 1, title: "This Venue with image", body: "Body", image: UIImage(named: "venue.jpeg"), rating: 3, city: "New york", neighborhood: "SOHO")
     VenueDetailsPage(venue: venue)
 }
 
