@@ -10,11 +10,16 @@ import SwiftData
 
 @Model
 class UserProfile {
+    @Transient var timeZone = TimeZone.current
+
     var firstName: String
     var lastName: String
     var fullName: String {
         firstName + " " + lastName
     }
+    
+    @Relationship(deleteRule: .cascade, inverse: \FavoriteVenue.user)
+    var favoriteVenues: [FavoriteVenue] = []
     
     var initials: String {
         let first = firstName.first?.uppercased() ?? ""

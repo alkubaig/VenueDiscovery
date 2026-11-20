@@ -21,6 +21,8 @@ class VenuesListViewModel: ObservableObject {
                 print("Fonts:", UIFont.fontNames(forFamilyName: family))
             }
         }
+        print("Inter18pt-Bold")
+        print(UIFont(name: "Inter18pt-Bold", size: 29) as Any)
         fetchVenues()
     }
     

@@ -76,7 +76,9 @@ class DiscoverNetwork {
             title: venueResponse.title,
             body: venueResponse.body,
             image: image,
-            rating: venueResponse.rating
+            rating: venueResponse.rating,
+            city: venueResponse.city,
+            neighborhood: venueResponse.neighborhood
         )
     }
 }
